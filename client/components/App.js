@@ -35,7 +35,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={HomePage}/>
             <PropsRoute path="/login" component={LoginPage} loginHandler={this.loginHandler} />
-            <Route path="/todos" component={TodolistPage}/>
+            <PrivateRoute path="/todos" redirectTo="/login" component={TodolistPage}/>
             <Route component={NotfoundPage}/>
           </Switch>
       </AppContainer>
