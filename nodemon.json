@@ -1,0 +1,8 @@
+{
+  "verbose": true,
+  "debug": true,
+  "exec": "npm run build:dev && babel-node {{filename}}",
+  "watch": "src",
+  "ext": "js",
+  "ignore": ["server/static/js/bundle.js", "server/server-es5.js"]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "todo-react-app",
+  "version": "1.0.0",
+  "description": "Web app I made for me to learn React + Flux",
+  "main": "server.js",
+  "scripts": {
+    "test:lint": "eslint server/ client/",
+    "test": "npm run test:lint",
+    "start": "npm run build && node server/server-es5.js",
+    "start:universal": "export UNIVERSAL=true && npm run start",
+    "start:dev": "export NODE_ENV=development && nodemon server/server.js",
+    "start:dev:universal": "export NODE_ENV=development && export UNIVERSAL=true && npm run start:dev",
+    "build": "NODE_ENV=production webpack -p --profile --display-modules --optimize-minimize",
+    "build:dev": "webpack -d",
+    "build:dev:watch": "webpack -d --watch"
+  },
+  "author": "Ed Nunez",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "ejs": "^2.5.7",
+    "express": "5.0.0-alpha.5",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "react-router-dom": "^4.1.2"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.2.0",
+    "nodemon": "^1.11.0",
+    "webpack": "^3.0.0",
+    "webpack-node-externals": "^1.6.0"
+  }
+}
