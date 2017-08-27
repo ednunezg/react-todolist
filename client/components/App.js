@@ -4,7 +4,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PropsRoute, PrivateRoute} from '../modules/CustomRoutes'
 
-import AppContainer from './AppContainer';
+import Layout from './Layout';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import TodolistPage from '../pages/TodolistPage';
@@ -31,14 +31,14 @@ class App extends React.Component {
     return (
 
     <BrowserRouter>
-      <AppContainer pageTitle={this.state.pageTitle} isLoggedIn={this.state.isLoggedIn} loginHandler={this.loginHandler}>
+      <Layout pageTitle={this.state.pageTitle} isLoggedIn={this.state.isLoggedIn} loginHandler={this.loginHandler}>
           <Switch>
             <Route exact path="/" component={HomePage}/>
             <PropsRoute path="/login" component={LoginPage} loginHandler={this.loginHandler} />
             <PrivateRoute path="/todos" redirectTo="/login" component={TodolistPage}/>
             <Route component={NotfoundPage}/>
           </Switch>
-      </AppContainer>
+      </Layout>
     </BrowserRouter>
 
   )};

@@ -1,7 +1,7 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
 
-class AppContainer extends React.Component {
+class Layout extends React.Component {
     
     constructor(){
         super();
@@ -26,4 +26,4 @@ class AppContainer extends React.Component {
     )};
 }
 
-export default AppContainer;
+export default Layout;
