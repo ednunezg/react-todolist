@@ -5,9 +5,10 @@ class NotfoundPage extends React.Component {
     render(){
       return (
         <div>
-            <h1> Page not found </h1>                        
+            <h1 className="page-title"> Page not found :( </h1>                        
 
-            <p> Some charismatic message about how idiotic the end user is </p>
+            <p> The link may be broken, or the page may have been removed </p>
+
         </div>
     )}
 }

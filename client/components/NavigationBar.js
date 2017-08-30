@@ -10,28 +10,39 @@ class NavigationBar extends React.Component {
 
         if (!isLoggedIn) {
             navBarContent = (
-                <ul className="nav navbar-nav">
-                    <li><NavLink to="/login" activeClassName="strong">Login</NavLink></li>
-                    <li><NavLink to="/register" activeClassName="strong">Register</NavLink></li>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/login" activeClassName="active">Login</NavLink>
+                    </li>
+                    
+                    <li className="nav-item">
+                        <NavLink className="nav-link" to="/register" activeClassName="active">Register</NavLink>
+                    </li>
                 </ul>
             )
         }
         else {
             navBarContent = (
-                <ul className="nav navbar-nav">
-                <li><NavLink to="/" activeClassName="strong">Home</NavLink></li>
-                <li><NavLink to="/todos" activeClassName="strong">Todos</NavLink></li>
-                <li><NavLink to="/leaderboard" activeClassName="strong">Leaderboard</NavLink></li>
+                <ul className="navbar-nav mr-auto">
+                    <li className="nav-item">
+                        <NavLink to="/" className="nav-link" activeClassName="active">Home</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to="/todos" className="nav-link" activeClassName="active">Todos</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to="/leaderboard" className="nav-link" activeClassName="active">Leaderboard</NavLink>
+                    </li>
                 </ul>
             )
         }
 
     return (
-        <nav className="navbar navbar-default">
+        <nav className="navbar navbar-expand-lg navbar-dark bg-info">
+            
+            <NavLink to="/" className="navbar-brand" >{this.props.pageTitle}</NavLink>
+            
             <div className="container-fluid">
-                <div className="navbar-header">
-                    <a className="navbar-brand"> {this.props.pageTitle} </a>
-                </div>
                 {navBarContent}
             </div>
         </nav>
