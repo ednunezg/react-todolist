@@ -58,7 +58,7 @@ class RegisterPage extends React.Component {
             }
         
             //1c. Username
-            var username_regex = /^[a-z0-9]+$/i;            
+            var username_regex = new RegExp('[a-z0-9]');        
             if(user.username == ''){
                 errors["username"] = 'Username field can not be empty'
             }
@@ -100,9 +100,7 @@ class RegisterPage extends React.Component {
             this.setState({ errors: errors })
 
             //If there no errors, continue
-            if(Object.keys(errors).length != 0){
-                return    
-            }
+            if(Object.keys(errors).length != 0){  return   }
             
 
         //2. Back end request
