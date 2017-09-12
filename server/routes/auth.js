@@ -24,7 +24,7 @@ passport.deserializeUser(function(id, done){
   });
 });
 
-//Strategies
+//JWT Strategy is used to verify a client's JWT before accessing a 'secret' route
 passport.use('jwt', new JwtStrategy(
   {
   jwtFromRequest  : ExtractJwt,
@@ -42,6 +42,7 @@ passport.use('jwt', new JwtStrategy(
   }
 ));
 
+//THe following are strategies for logging in, all of which respond to the client with a JWT if succesful
 passport.use('local',new LocalStrategy(
   function(username, password, done) {
     
