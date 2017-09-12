@@ -1,5 +1,10 @@
 import React from 'react';
 import RegisterForm from '../components/RegisterForm'
+import AlertActions from '../actions/AlertActions'
+import AuthService from '../services/AuthService'
+import Constants from '../constants'
+import request from 'superagent';
+import {withRouter} from "react-router-dom";
 
 class RegisterPage extends React.Component {
 
@@ -38,12 +43,12 @@ class RegisterPage extends React.Component {
                 delete errors["lastname"];
             }
 
-            if(user.lastname == ''){
-                errors["lastname"] = 'Last name can not be empty'
-            }
-            else{
-                delete errors["lastname"];
-            }
+            // if(user.lastname == ''){
+                // errors["lastname"] = 'Last name can not be empty'
+            // }
+            // else{
+                // delete errors["lastname"];
+            // }
 
             //1b. Email field
             var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
@@ -97,16 +102,39 @@ class RegisterPage extends React.Component {
                 delete errors["password2"];
             }
         
-            this.setState({ errors: errors })
-
             //If there no errors, continue
-            if(Object.keys(errors).length != 0){  return   }
+            if(Object.keys(errors).length != 0){ 
+                AlertActions.displayMessage('warning', 'Please fix the errors in the form');
+                this.setState({ errors: errors })                
+                return;
+            }
             
 
         //2. Back end request
+        request
+            .post(Constants.REGISTER_URL_LOCAL)
+            .send(user)
+            .end( (err, res) => {
+                console.log("err = " + JSON.stringify(err));
+                console.log("res = " + JSON.stringify(res));
 
-        console.log("Making back end request ....");
-
+                if(err || !res.ok){
+                    if(res.body.message) {
+                        AlertActions.displayMessage('warning', res.body.message);
+                        for (var i = 0; i < res.body.errors.length; i++) {
+                            errors[res.body.errors[i].param] = res.body.errors[i].msg;
+                        }
+                        this.setState({ errors: errors });                                
+                    }
+                    else{
+                        AlertActions.displayMessage('error', 'Can not register user at this time. Server might be down.');                                                
+                    }
+                }
+                else{
+                    this.props.history.push('/login')
+                    AlertActions.displayMessage('success', res.body.message);
+                }
+            });            
     }
     
     
@@ -140,4 +168,4 @@ class RegisterPage extends React.Component {
     )}
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);

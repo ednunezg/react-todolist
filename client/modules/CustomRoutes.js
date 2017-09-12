@@ -1,5 +1,7 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
+import LoginStore from '../stores/LoginStore';
+import NotloggedinPage from '../pages/NotloggedinPage'
 
   /*
     Routing for components that require properties
@@ -37,19 +39,15 @@ import { Route } from 'react-router-dom';
 
   */
 
-  var PrivateRoute = ({ component, redirectTo, ...rest }) => {
-    return (
-      <Route {...rest} render={routeProps => {
-        return auth.loggedIn() ? (
-          renderMergedProps(component, routeProps, rest)
-        ) : (
-          <Redirect to={{
-            pathname: redirectTo,
-            state: { from: routeProps.location }
-          }}/>
-        );
-      }}/>
-    );
-  };
+  var PrivateRoute = ({ history, component, redirectTo, ...rest }) => {
+    
+    if(LoginStore.isLoggedIn()){
+      return <Route {...rest} render={routeProps => renderMergedProps(component, routeProps, rest) }/>;
+    }
+    else{
+      return <Redirect to={redirectTo}/>
+    }
+
+  }
 
 export {PropsRoute, PrivateRoute}

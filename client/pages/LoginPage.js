@@ -1,5 +1,16 @@
+import AuthService from '../services/AuthService'
+import Constants from '../constants.js'
 import React from 'react';
 import LoginForm from '../components/LoginForm'
+import LoginActions from '../actions/LoginActions'
+import LoginStore from '../stores/LoginStore'
+import {withRouter} from "react-router-dom";
+
+
+import AlertActions from '../actions/AlertActions'
+
+
+import request from 'superagent';
 
 class LoginPage extends React.Component {
     
@@ -14,8 +25,9 @@ class LoginPage extends React.Component {
             user: {
                 username: '',
                 password: ''
-            }
+            },
         };
+        this.login = this.login.bind(this);        
         this.processForm = this.processForm.bind(this);
         this.updateUser = this.updateUser.bind(this);
     }
@@ -25,20 +37,24 @@ class LoginPage extends React.Component {
 
         //1. Front end validation
         const user = this.state.user;
-        var newErrors = {};
+        var errors = {};
 
         if(user.username == ''){
-            newErrors["username"] = 'Username field can not be empty'
+            errors["username"] = 'Username field can not be empty'
         }
         if(user.password == ''){
-            newErrors["password"] = 'Password field can not be empty'
+            errors["password"] = 'Password field can not be empty'
         }
-        this.setState({ errors: newErrors })
 
+        if(Object.keys(errors).length != 0){  
+            this.setState({ errors: errors })                    
+            AlertActions.displayMessage('warning', 'Fix the errors in the form before proceding');
+            return;
+        }
+        
         //2. Back end request
-
+        AuthService.loginLocal(this.state.user.username, this.state.user.password, this.props.history);
     }
-
 
     updateUser(event){
         //Updated user state
@@ -48,12 +64,17 @@ class LoginPage extends React.Component {
         this.setState({ user: updatedUser })
     }
 
+    login(event){
+        event.preventDefault();                
+        LoginActions.loginUser(this.state.user.username);
+    }
+
 
     render(){
       return (
         <div>
             <h1 className="page-title"> Login </h1>
-            
+
             <LoginForm 
                 onSubmit={this.processForm}
                 onChange={this.updateUser}
@@ -68,10 +89,8 @@ class LoginPage extends React.Component {
 
             <hr />
 
-            <button className="btn btn-outline-info" onClick={this.props.loginHandler}>Fake Log In</button>
-
         </div>
     )}
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

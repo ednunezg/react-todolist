@@ -4,80 +4,86 @@ import React from 'react';
 import createHistory from 'history/createBrowserHistory'
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { PropsRoute, PrivateRoute} from '../modules/CustomRoutes'
-import { withRouter } from 'react-router-dom';
 
+//Constants
+import Constants from '../constants'
 
+//Stores
+import LoginStore from '../stores/LoginStore'
+import AlertStore from '../stores/AlertStore'
 
+//Actions
+import LoginActions from '../actions/LoginActions'
+import AlertActions from '../actions/AlertActions'
+
+//Components
 import Layout from './Layout';
+
+//Pages
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import TodolistPage from '../pages/TodolistPage';
 import NotfoundPage from '../pages/NotfoundPage';
-
+import LogoutPage from '../pages/LogoutPage';
 
 class App extends React.Component {
   
   constructor(props){
     super(props);
     this.state = {
-      isLoggedIn: false,
-      pageTitle: "My Awesome Todo App",
-      flashMessage: {
+      pageTitle: Constants.PAGE_TITLE,   
+      isLoggedIn: LoginStore.isLoggedIn(),
+      alertMessage: {
         type: null,
         content: null
       }
     };
 
-    //Bind functions passed down to other components
-    this.loginHandler = this.loginHandler.bind(this);
-    this.registerHandler = this.registerHandler.bind(this);
-    
     //Listen to route changes
     this.props.history.listen((location, action) => {
-      //Remove flash message on route change
       console.log("Route Changed!");
-      this.setState({flashMessage: { type:null, content:null }})
-      });
+      AlertActions.removeMessage();
+    });
+
+    //Expost the stores and actions globally for debugging
+    window.LoginStore = LoginStore;
+    window.LoginActions = LoginActions;
+    window.AlertStore = AlertStore;
+    window.AlertActions = AlertActions;
   };
 
- 
-  loginHandler(e){
-    e.preventDefault();
-    this.setState({isLoggedIn: true});
-    this.setState({flashMessage: {
-      type:"success",
-      content:"You are now succesfully logged in"
-    }})
-    this.updateFlashMessage("success", "You are now succesfully logged in");
+  componentDidMount() {
+    this.loginChange = () => { 
+      this.setState( {isLoggedIn: LoginStore.isLoggedIn()}) 
+    };
+    this.alertChange = () => {
+      // if(AlertStore.alertExists()){
+        this.setState( {alertMessage: AlertStore.obtainAlertMessage()} );
+        // AlertActions.removeMessage();
+
+      // }
+    };
+    LoginStore.addChangeListener(this.loginChange);
+    AlertStore.addChangeListener(this.alertChange);
   }
 
-  registerHandler(e){
-    e.preventDefault();
-    this.setState({isLoggedIn: true});
-    this.setState({flashMessage: {
-      type:"success",
-      content:"You are now succesfully logged in"
-    }})
-    this.updateFlashMessage("success", "You are now succesfully logged in");
+  componentWillUnmount() {
+    LoginStore.removeChangeListener(this.loginChange);
+    AlertStore.removeChangeListener(this.alertChange);    
   }
 
-  updateFlashMessage(msgType, msgContent){
-    this.setState({flashMessage: {
-      type:msgType,
-      content:msgContent
-    }})
-  }
   
   render() {
     return (
 
-      <Layout pageTitle={this.state.pageTitle} isLoggedIn={this.state.isLoggedIn} flashMessage={this.state.flashMessage}>
+      <Layout pageTitle={this.state.pageTitle} alertMessage={this.state.alertMessage}>
           <Switch>
-            <Route exact path="/" component={HomePage}/>
-            <PropsRoute path="/login" component={LoginPage} loginHandler={this.loginHandler} />
-            <PropsRoute path="/register" component={RegisterPage} registerHandler={this.registerHandler} />
+            <PrivateRoute exact path="/" redirectTo="/login" component={HomePage}/>
+            <PropsRoute path="/login" component={LoginPage} />
+            <PropsRoute path="/register" component={RegisterPage}/>
             <PrivateRoute path="/todos" redirectTo="/login" component={TodolistPage}/>
+            <PropsRoute path="/logout" redirectTo="/login" component={LogoutPage}/>
             <Route component={NotfoundPage}/>
           </Switch>
       </Layout>

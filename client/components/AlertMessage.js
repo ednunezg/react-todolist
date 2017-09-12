@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-class FlashMessage extends React.Component {
+class AlertMessage extends React.Component {
     
     render(){
 
-        const msgType = this.props.flashMessage.type;
-        const msgContent = this.props.flashMessage.content;
+        const msgType = this.props.type;
+        const msgContent = this.props.content;
         var alertDiv;
 
         if(msgType == "success"){
@@ -30,4 +30,4 @@ class FlashMessage extends React.Component {
     }
 }
 
-export default FlashMessage;
+export default AlertMessage;

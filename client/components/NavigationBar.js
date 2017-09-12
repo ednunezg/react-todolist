@@ -1,11 +1,12 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import LoginStore from '../stores/LoginStore'
 
 class NavigationBar extends React.Component {
     
     render(){
 
-        const isLoggedIn = this.props.isLoggedIn;
+        const isLoggedIn = LoginStore.isLoggedIn();
         var navBarContent;
 
         if (!isLoggedIn) {
@@ -32,6 +33,9 @@ class NavigationBar extends React.Component {
                     </li>
                     <li className="nav-item">
                         <NavLink to="/leaderboard" className="nav-link" activeClassName="active">Leaderboard</NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink to="/logout" className="nav-link" activeClassName="active">Logout</NavLink>
                     </li>
                 </ul>
             )

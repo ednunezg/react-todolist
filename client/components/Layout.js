@@ -1,20 +1,17 @@
 import React from 'react';
 import NavigationBar from './NavigationBar';
-import FlashMessage from './FlashMessage';
+import AlertMessage from './AlertMessage'
+
 
 class Layout extends React.Component {
-    
-    constructor(){
-        super();
-    }
-
+        
     render(){
       return (
         <div className="container">
 
             <div className="app-header">
                 <NavigationBar pageTitle={this.props.pageTitle} isLoggedIn={this.props.isLoggedIn}/>
-                <FlashMessage flashMessage={this.props.flashMessage} />
+                <AlertMessage type={this.props.alertMessage.type} content={this.props.alertMessage.content}/>
             </div>
 
             <div className="app-content">
