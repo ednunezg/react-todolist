@@ -4,14 +4,14 @@ var config = {
     dbLocation: "mongodb://localhost/oauth-app",
   
     facebookConfig: {
-      appID: "2353889744835609",
-      appSecret: "8abebe5201dee56a57e8200a4d0445bb",
+      appID: "YOUR_APP_ID",
+      appSecret: "YOUR_APP_SECRET",
       callbackUrl: "http://localhost:3000/auth/login/facebook/callback"
     },
   
     googleConfig: {
-      appID: "614545485749-oig4iircafuop4u2vqusqhf4fslm4kp1.apps.googleusercontent.com",
-      appSecret: "2XSXwe7bpN4IS1so5CcRm365",
+      appID: "YOUR_APP_ID",
+      appSecret: "YOUR_APP_SECRET",
       callbackUrl: "http://localhost:3000/auth/login/google/callback"
     },
 
