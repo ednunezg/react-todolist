@@ -8,13 +8,16 @@ var Constants = {
 
   //Authorization
   LOGIN_URL_LOCAL: '/auth/login/local',
-  LOGIN_URL_FACEBOOK: '/auth/login/local',
-  LOGIN_URL_GOOGLE: '/auth/login/local',
-
+  LOGIN_URL_FACEBOOK: '/auth/login/facebook',
+  LOGIN_URL_GOOGLE: '/auth/login/google',
   REGISTER_URL_LOCAL: '/auth/register/local',
-  REGISTER_URL_FACEBOOK: '/auth/register/local',
-  REGISTER_URL_GOOGLE: '/auth/register/local',
+  
+  //Hello.js
+  FACEBOOK_APP_ID: "2353889744835609",
+  FACEBOOK_APP_SECRET: "8abebe5201dee56a57e8200a4d0445bb",
 
+  GOOGLE_APP_ID: "614545485749-oig4iircafuop4u2vqusqhf4fslm4kp1.apps.googleusercontent.com",
+  GOOGLE_APP_SECRET: "2XSXwe7bpN4IS1so5CcRm365",
 
 
 }  

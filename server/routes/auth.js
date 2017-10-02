@@ -1,5 +1,6 @@
 var APP_CONFIG = require('../app-config.js');
 var User = require('../models/User');
+var request = require('superagent');
 
 //Middleware
 var jwt = require('jsonwebtoken');
@@ -8,12 +9,13 @@ var JwtStrategy = require("passport-jwt").Strategy;
 var ExtractJwt = require("passport-jwt").ExtractJwt;
 
 var LocalStrategy = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google-oauth20').Strategy;
+var FacebookStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-local').Strategy;
 
 //Serialize/deserialize
 //Seriale user takes in a user object and passes the id to the callback function 'done'
 passport.serializeUser(function(user,done){
+
   done(null, user.id);
 });
 
@@ -32,7 +34,6 @@ passport.use('jwt', new JwtStrategy(
   },
   function(jwt_payload, next){
     console.log('Json web token payload received: ', jwt_payload);
-    // usually this would be a database call:
     var user = User.getUserById(jwt_payload.id);
     if (user) {
       next(null, user);
@@ -51,8 +52,6 @@ passport.use('local',new LocalStrategy(
     //The process of our local strategy consists of
       //1. Verifying user exists
       //2. Check if password matches
-
-    console.log("Strategy engaged! user = " + username + " password = " + password);
     
     User.getUserByLocalUsername(username, function(err, user){
 
@@ -78,86 +77,44 @@ passport.use('local',new LocalStrategy(
     });
 }));
 
-passport.use('facebook', new FacebookStrategy({
-  clientID        : APP_CONFIG.facebookConfig.appID,
-  clientSecret    : APP_CONFIG.facebookConfig.appSecret,
-  callbackURL     : APP_CONFIG.facebookConfig.callbackUrl,
-  profileFields: ['id', 'displayName', 'email'] 
-  },
- 
-  // facebook will send back the tokens and profile
-  function(access_token, refresh_token, profile, done) {
-    // asynchronous
-    process.nextTick(function() {
-     
-      // find the user in the database based on their facebook id
+var facebookAuth = function(socialtoken, done) {
+
+    request
+    .get('https://graph.facebook.com/me')
+    .query({ access_token: socialtoken, fields:"name,email" })
+    .set('Accept', 'application/json')        
+    .end(function(err, res){
+
+      if (err || !res.ok) { done(err); }
+    
+      var profile = res.body;
+
       User.getUserByFacebookId(profile.id, function(err, user){
-        // if there is an error, stop everything and return that
-        // ie an error connecting to the database
-        if (err)
-          return done(err);
- 
-          // if the user is found, then log them in
-          if (user) {
-            return done(null, user); // user found, return that user
-          } else {
-            // if there is no user found with that facebook id, create them
-                        
-            // set all of the facebook information in our user model
-            var newUser = new User();
-            newUser.email = (profile.emails[0].value || '').toLowerCase();
-            newUser.name = profile.displayName;
-            newUser.reg_source = 'facebook';
-            newUser.facebook.id = profile.id;
-            newUser.facebook.token = access_token;
 
-            User.createFacebookUser(newUser, function(err, user){
-              if(err) return done(err);
-              return done(null, newUser);
-            });
-         } 
-      });
+        if(err){
+          console.log("Throwing error");
+          throw err;
+        }
+        if(!user){
+          var newUser = new User();
+          newUser.email = profile.email;
+          newUser.name = profile.name;
+          newUser.reg_source = 'facebook';
+          newUser.facebook.id = profile.id;
+          newUser.facebook.token = socialtoken;
+    
+          User.createFacebookUser(newUser, function(err, user){
+            if(err) return done(err);
+            return done(null, newUser);
+          });
+        }
+        else{
+          return done(null, user);          
+        }      
     });
-}));
-
-passport.use('google', new GoogleStrategy({
-  clientID        : APP_CONFIG.googleConfig.appID,
-  clientSecret    : APP_CONFIG.googleConfig.appSecret,
-  callbackURL     : APP_CONFIG.googleConfig.callbackUrl,
-  passReqToCallback   : true
-  },
-  // facebook will send back the tokens and profile
-  function(request, access_token, refresh_token, profile, done) { 
-    // asynchronous
-    process.nextTick(function() {
-      // find the user in the database based on their facebook id
-      User.getUserByGoogleId(profile.id, function(err, user){
-        // if there is an error, stop everything and return that
-        // ie an error connecting to the database
-        if (err)
-          return done(err);
- 
-          // if the user is found, then log them in
-          if (user) {
-            return done(null, user); // user found, return that user
-          } else {
-            // if there is no user found with that facebook id, create them
-                                    
-            var newUser = new User();
-            newUser.email = (profile.emails[0].value || '').toLowerCase();
-            newUser.name = profile.displayName;
-            newUser.reg_source = 'google';
-            newUser.google.id = profile.id;
-            newUser.google.token = access_token;
-
-            User.createGoogleUser(newUser, function(err, user){
-              if(err) return done(err);
-              return done(null, newUser);
-            });
-         } 
-      });
     });
-}));
+};
+
 
 //Routes
 var express = require('express');
@@ -165,7 +122,7 @@ var router = express.Router();
 
 
 router.post('/login/local', function(req, res) {
-  passport.authenticate('local', function(err, user, info) {
+  passport.authenticate('local', function(err, user, info){
     if (err) {
       console.log(err);
       return res.status(403).json({message: err});
@@ -178,20 +135,35 @@ router.post('/login/local', function(req, res) {
         console.log(err);
         return res.status(403).json({message: err});
       }
+      var payload = {id: user._id};
+      var token = jwt.sign(payload, APP_CONFIG.jwtSecret);  
+      return res.status(200).json({message: 'User has been authorized', token: token});
+    });
+    })(req, res);
+});
+
+router.post('/login/facebook', function(req, res) {
+
+    //The post request will provide a social token AND the facebook profile JSON
+    //The server checks if social token matches any of the registered fb users
+      //If true, we respond with a JWT, authorizing the user.
+      //If false, we create a new facebook user
+
+
+  facebookAuth(req.body.socialtoken, function(err, user, info){
+    if (err) {
+      console.log(err);
+      return res.status(403).json({message: err});
+    }
+    if (!user) { 
+      return res.status(401).json(info);
+    }
+      console.log("Facebook auth user = " + JSON.stringify(user));
 
       var payload = {id: user._id};
       var token = jwt.sign(payload, APP_CONFIG.jwtSecret);  
       return res.status(200).json({message: 'User has been authorized', token: token});
     });
-  })(req, res);
-});
-
-router.get("/secretRouteTest",
-function(req, res, next){
-  console.log(req.get('Authorization'));
-  next();
-}, function(req, res){
-  res.json("debugging");
 });
 
 
@@ -251,5 +223,6 @@ router.post('/register/local', function (req, res) {
     })
   }
 });
+
 
 module.exports = router;

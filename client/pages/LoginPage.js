@@ -27,7 +27,8 @@ class LoginPage extends React.Component {
                 password: ''
             },
         };
-        this.login = this.login.bind(this);        
+        this.loginFacebook = this.loginFacebook.bind(this);        
+        
         this.processForm = this.processForm.bind(this);
         this.updateUser = this.updateUser.bind(this);
     }
@@ -64,9 +65,9 @@ class LoginPage extends React.Component {
         this.setState({ user: updatedUser })
     }
 
-    login(event){
+    loginFacebook(event){
         event.preventDefault();                
-        LoginActions.loginUser(this.state.user.username);
+        AuthService.loginFacebook(this.props.history);
     }
 
 
@@ -84,8 +85,13 @@ class LoginPage extends React.Component {
 
             <hr />
 
-            <a className="btn loginBtn loginBtn--facebook" href="/auth/login/facebook"> Log in with Facebook </a>
-            <a className="btn loginBtn loginBtn--google" href="/auth/login/google"> Log in with Google </a>
+            <button className="btn loginBtn loginBtn--facebook" onClick={this.loginFacebook}>
+                Log in with Facebook
+            </button>
+
+            <button className="btn loginBtn loginBtn--google" >
+                Log in with Google
+            </button>
 
             <hr />
 

@@ -56,8 +56,8 @@ module.exports.getUserByFacebookId = function(id, callback){
   User.findOne(query, callback);
 }
 
-module.exports.getUserByGoogleId = function(id, callback){
-  var query = {'google.id': id}; 
+module.exports.getUserByGoogleToken = function(token, callback){
+  var query = {'google.token': token}; 
   User.findOne(query, callback);
 }
 
