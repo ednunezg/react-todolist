@@ -1,7 +1,7 @@
 var Constants = {
 
   //Text
-  PAGE_TITLE: 'My Awesome Todo App',
+  PAGE_TITLE: "World's Best Todo App",
 
   //Timeouts
   ALERT_MESSAGE_TIMEOUT: 10000, //Set to 10 thousand miliseconds

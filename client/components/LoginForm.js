@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from './form_components/TextInput'
+import LoginTextInput from './form_components/LoginTextInput'
 
 class LoginForm extends React.Component {
     
@@ -12,14 +12,16 @@ class LoginForm extends React.Component {
       
 
       return (
-        <div id="login-form">
-
+        <div id="login-form" >
+        
           <p className="login-form-errors">{errors.main}</p>
 
-          <form className="col-md-4" action="/" onSubmit={onSubmit}>
+          <form action="/" onSubmit={onSubmit}>
             
-            <TextInput 
-              label="Username"
+
+            <LoginTextInput 
+              label="👤"
+              placeholder="Username"
               id="username"
               name="username"
               onChange={onChange}
@@ -28,8 +30,9 @@ class LoginForm extends React.Component {
               type="text"
             />
             
-            <TextInput 
-              label="Password"
+            <LoginTextInput 
+              label="🗝"
+              placeholder="Password"
               id="password"
               name="password"
               onChange={onChange}
@@ -38,12 +41,13 @@ class LoginForm extends React.Component {
               type="password"
             />
 
+
             <div className="form-group">
-              <button type="submit" className="btn btn-outline-info">Submit</button>
+              <button type="submit" className="btn btn-outline-secondary">Login</button>
             </div>
 
           </form>
-                
+        
         </div>
     )}
 }

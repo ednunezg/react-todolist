@@ -1,6 +1,6 @@
 import React from 'react';
 
-class TextInput extends React.Component {
+class RegisterTextInput extends React.Component {
     
     constructor(){
         super();
@@ -28,4 +28,4 @@ class TextInput extends React.Component {
     )};
 }
 
-export default TextInput;
+export default RegisterTextInput;

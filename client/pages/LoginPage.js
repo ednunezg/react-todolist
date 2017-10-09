@@ -73,28 +73,40 @@ class LoginPage extends React.Component {
 
     render(){
       return (
-        <div>
-            <h1 className="page-title"> Login </h1>
+        <div className="row justify-content-center">
 
-            <LoginForm 
-                onSubmit={this.processForm}
-                onChange={this.updateUser}
-                errors={this.state.errors}
-                user={this.state.user}
-            />
+            <div className="card col-md-6">
+            <div className="card-body text-center">
 
-            <hr />
+                <h3 className="card-title text-left">Login</h3>
 
-            <button className="btn loginBtn loginBtn--facebook" onClick={this.loginFacebook}>
-                Log in with Facebook
-            </button>
+                <br/>
 
-            <button className="btn loginBtn loginBtn--google" >
-                Log in with Google
-            </button>
+                <LoginForm 
+                    onSubmit={this.processForm}
+                    onChange={this.updateUser}
+                    errors={this.state.errors}
+                    user={this.state.user}
+                />
 
-            <hr />
+                <hr />
 
+                <button className="btn loginBtn loginBtn--facebook" onClick={this.loginFacebook}>
+                    Log in with Facebook
+                </button>
+                
+                <button className="btn loginBtn loginBtn--google" >
+                    Log in with Google
+                </button>
+
+                <hr />
+
+                <p className="text-justify">
+                <small> By logging in with your Facebook or Google account, you are giving this website permission
+                    to obtain your name and email. Your personal information will not be shared with anyone.</small>
+                </p>
+            </div>
+            </div>
         </div>
     )}
 }

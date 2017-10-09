@@ -43,12 +43,12 @@ class RegisterPage extends React.Component {
                 delete errors["lastname"];
             }
 
-            // if(user.lastname == ''){
-                // errors["lastname"] = 'Last name can not be empty'
-            // }
-            // else{
-                // delete errors["lastname"];
-            // }
+            if(user.lastname == ''){
+                errors["lastname"] = 'Last name can not be empty'
+            }
+            else{
+                delete errors["lastname"];
+            }
 
             //1b. Email field
             var email_regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i;
@@ -149,22 +149,43 @@ class RegisterPage extends React.Component {
 
     render(){
       return (
-        <div>
-            <h1 className="page-title"> Register </h1>
-            
-            <RegisterForm
+        <div className="row justify-content-center">
+
+            <div className="card col-md-6">
+            <div className="card-body text-center">
+
+                <h3 className="card-title text-left">Register</h3>
+
+                <br/>
+
+                <RegisterForm
                 onSubmit={this.processForm}
                 onChange={this.updateUser}
                 errors={this.state.errors}
                 user={this.state.user}
-            />
+                />
 
-            <hr />
+                <hr />
 
-            <a className="btn loginBtn loginBtn--facebook" href="/auth/login/facebook"> Log in with Facebook </a>
-            <a className="btn loginBtn loginBtn--google" href="/auth/login/google"> Log in with Google </a>
+                <button className="btn loginBtn loginBtn--facebook" onClick={this.loginFacebook}>
+                    Log in with Facebook
+                </button>
+                
+                <button className="btn loginBtn loginBtn--google" >
+                    Log in with Google
+                </button>
 
+                <hr />
+
+                <p className="text-justify">
+                <small> By logging in with your Facebook or Google account, you are giving this website permission
+                    to obtain your name and email. Your personal information will not be shared with anyone.</small>
+                </p>
+
+            </div>
+            </div>
         </div>
+
     )}
 }
 

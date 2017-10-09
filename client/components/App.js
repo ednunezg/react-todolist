@@ -80,7 +80,7 @@ class App extends React.Component {
       <Layout pageTitle={this.state.pageTitle} alertMessage={this.state.alertMessage}>
           <Switch>
             <PrivateRoute exact path="/" redirectTo="/login" component={HomePage}/>
-            <PropsRoute path="/login" component={LoginPage} />
+            {<PropsRoute path="/login" component={LoginPage} />}
             <PropsRoute path="/register" component={RegisterPage}/>
             <PrivateRoute path="/todos" redirectTo="/login" component={TodolistPage}/>
             <PropsRoute path="/logout" redirectTo="/login" component={LogoutPage}/>

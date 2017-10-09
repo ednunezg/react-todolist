@@ -8,10 +8,13 @@ class NavigationBar extends React.Component {
 
         const isLoggedIn = LoginStore.isLoggedIn();
         var navBarContent;
+        var navBarStyle = {
+            backgroundColor:'#e3f2fd',
+        };
 
         if (!isLoggedIn) {
             navBarContent = (
-                <ul className="navbar-nav mr-auto">
+                <ul className="navbar-nav mr-auto navbar-right">
                     <li className="nav-item">
                         <NavLink className="nav-link" to="/login" activeClassName="active">Login</NavLink>
                     </li>
@@ -24,15 +27,12 @@ class NavigationBar extends React.Component {
         }
         else {
             navBarContent = (
-                <ul className="navbar-nav mr-auto">
+                <ul className="navbar-nav mr-auto navbar-right">
                     <li className="nav-item">
-                        <NavLink to="/" className="nav-link" activeClassName="active">Home</NavLink>
+                        <NavLink exact to="/" className="nav-link" activeClassName="active">Home</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink to="/todos" className="nav-link" activeClassName="active">Todos</NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink to="/leaderboard" className="nav-link" activeClassName="active">Leaderboard</NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink to="/logout" className="nav-link" activeClassName="active">Logout</NavLink>
@@ -42,7 +42,7 @@ class NavigationBar extends React.Component {
         }
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-info">
+        <nav className="navbar navbar-expand-md navbar-dark bg-primary">
             
             <NavLink to="/" className="navbar-brand" >{this.props.pageTitle}</NavLink>
             

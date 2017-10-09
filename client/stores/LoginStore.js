@@ -1,8 +1,6 @@
 import BaseStore from './BaseStore';
 import jwt_decode from 'jwt-decode';
 
-// import jwt_decode from 'jwt-decode';
-
 class LoginStore extends BaseStore {
 
   constructor() {

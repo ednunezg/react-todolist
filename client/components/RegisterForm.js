@@ -1,7 +1,5 @@
 import React from 'react';
-import TextInput from './form_components/TextInput'
-import SubmitButton from './form_components/SubmitButton'
-
+import RegisterTextInput from './form_components/RegisterTextInput'
 
 
 class RegisterForm extends React.Component {
@@ -19,12 +17,13 @@ class RegisterForm extends React.Component {
     <div id="register-form">
 
         <p className="login-form-errors">{errors.main}</p>
-
-        <form action="/" className="col-md-4" onSubmit={onSubmit}>
+        
+        <div className="row justify-content-center">
+        <form action="/" className="col-sm-10" onSubmit={onSubmit}>
 
             <div className="row">
                 <div className="col-md-6">
-                    <TextInput 
+                    <RegisterTextInput 
                         label="First name"
                         id="firstname" name="firstname"
                         onChange={onChange}
@@ -35,7 +34,7 @@ class RegisterForm extends React.Component {
                 </div>
                 
                 <div className="col-md-6">
-                    <TextInput 
+                    <RegisterTextInput 
                         label="Last name"
                         id="lastname" name="lastname"
                         onChange={onChange}
@@ -46,7 +45,7 @@ class RegisterForm extends React.Component {
                 </div>
             </div>
 
-            <TextInput 
+            <RegisterTextInput 
                 label="Email"
                 id="email" name="email"
                 onChange={onChange}
@@ -55,7 +54,7 @@ class RegisterForm extends React.Component {
                 type="text"
             />
 
-            <TextInput 
+            <RegisterTextInput 
                 label="Username"
                 id="username" name="username"
                 onChange={onChange}
@@ -64,7 +63,7 @@ class RegisterForm extends React.Component {
                 type="text"
             />
 
-            <TextInput 
+            <RegisterTextInput 
                 label="Password"
                 type="password"
                 id="password1" name="password1"
@@ -73,7 +72,7 @@ class RegisterForm extends React.Component {
                 error={errors.password1}
             />
 
-            <TextInput 
+            <RegisterTextInput 
                 label="Re-enter password"
                 type="password"
                 id="password2" name="password2"
@@ -82,9 +81,11 @@ class RegisterForm extends React.Component {
                 error={errors.password2}
             />
         
-            <SubmitButton />            
-        </form>
-
+            <div className="form-group">
+                <button type="submit" className="btn btn-outline-secondary">Register</button>
+            </div>
+    </form>
+    </div>
     </div>
     )}
 }
