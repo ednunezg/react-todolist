@@ -24,6 +24,8 @@ var db = mongoose.connection;
 
 //Set routes
 var auth_route = require('./routes/auth');
+var api_route = require('./routes/api');
+
 
 //Init app
 const app = new Express();
@@ -88,6 +90,7 @@ app.post('/testpost', function(req,res){
 
 //Set routes
 app.use('/auth', auth_route);
+app.use('/api', api_route);
 
 
 // Start server

@@ -29,17 +29,30 @@ passport.deserializeUser(function(id, done){
 //JWT Strategy is used to verify a client's JWT before accessing a 'secret' route
 passport.use('jwt', new JwtStrategy(
   {
-  jwtFromRequest  : ExtractJwt,
+  jwtFromRequest  : ExtractJwt.fromBodyField('Authorization'),
   secretOrKey     : APP_CONFIG.jwtSecret
   },
-  function(jwt_payload, next){
+  function(jwt_payload, done){
+    
     console.log('Json web token payload received: ', jwt_payload);
-    var user = User.getUserById(jwt_payload.id);
-    if (user) {
-      next(null, user);
-    } else {
-      next(null, false);
-    }  
+    console.log("JWT USER ID = " + jwt_payload.id)
+
+      
+    User.getUserById(jwt_payload.id, function(error, user){
+
+      console.log("USER = " + JSON.stringify(user));
+      
+      if(error){
+        console.log("Throwing error: " + error);
+        return done(error, false);
+      }
+      if (user) {
+        return done(null, user);
+      } else {
+        return done("You are not authorized", false);
+      }  
+    });
+    
   }
 ));
 
@@ -96,7 +109,9 @@ var facebookAuth = function(socialtoken, done) {
           throw err;
         }
         if(!user){
+          //Create new user associated w FB account if not in DB already
           var newUser = new User();
+
           newUser.email = profile.email;
           newUser.name = profile.name;
           newUser.reg_source = 'facebook';
@@ -109,6 +124,7 @@ var facebookAuth = function(socialtoken, done) {
           });
         }
         else{
+          //User was found in DB
           return done(null, user);          
         }      
     });
@@ -223,6 +239,5 @@ router.post('/register/local', function (req, res) {
     })
   }
 });
-
 
 module.exports = router;

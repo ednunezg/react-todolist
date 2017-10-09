@@ -1,20 +1,15 @@
 import React from 'react';
+import Todolist from '../components/todolist_components/Todolist'
 
 class TodolistPage extends React.Component {
     
     render(){
       return (
         <div>
-            <h1 className="page-title"> This is the TodoList page. This is restricted for logged in users. </h1>
-                    
-            <p>
-                Todo todo todo todo <br/>
-                Todo todo todo todo <br/>
-                Todo todo todo todo <br/>
-                Todo todo todo todo <br/>
-                Todo todo todo todo <br/>
-            </p>
-            
+            <h1 className="page-title"> Todos </h1>
+
+            <Todolist />
+
         </div>
     )}
 }

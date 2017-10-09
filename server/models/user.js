@@ -3,7 +3,6 @@ var bcrypt = require('bcrypt');
 
 var UserSchema = mongoose.Schema({
 
-    name           : String,
     email          : String,
     reg_source     : String, //Source of registration
 
@@ -62,7 +61,8 @@ module.exports.getUserByGoogleToken = function(token, callback){
 }
 
 module.exports.getUserById = function(id, callback){
-  User.findById(id, callback);
+  var query = {_id: mongoose.mongo.ObjectId(id)}; 
+  User.findOne(query, callback);
 }
 
 // Password stuff

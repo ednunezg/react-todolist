@@ -5,9 +5,9 @@ class HomePage extends React.Component {
     render(){
       return (
         <div>
-            <h1 className="page-title"> This is the home page hooray </h1>
+            <h1 className="page-title"> Welcome! </h1>
         
-            <p>
+            <p className="text-justify">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit.
                 Beatae dignissimos adipisci assumenda ipsum iure! Facere 
                 exercitationem deserunt omnis eum. Illum ipsum excepturi 

@@ -78,3 +78,16 @@ background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_google.
 .loginBtn--google:focus {
 background: #E74B37;
 }
+
+
+/* Todo list */
+.todo {
+  padding: 20px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: #dddddd;
+}
+
+.newtodo {
+  padding: 20px;
+}
