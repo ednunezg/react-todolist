@@ -1,5 +1,5 @@
 # Todo list with user authentication on React.js
-![](http://i64.tinypic.com/2aihcue.png)
+![](http://i65.tinypic.com/28wjrzc.jpg)
 
 Made this project for me to better learn React.js with the Flux pattern, as well as handling user authentication using social login APIs.
 
