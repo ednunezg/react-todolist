@@ -19,8 +19,9 @@ export default class BaseStore extends EventEmitter {
   
 
   emitChange() {
-    //We emit a CHANGE EVENT after the dispatcher has finished finished
-    //TODO: Implement action queue 
+    //We emit a CHANGE EVENT after the dispatcher has finished
+    //TODO: Implement action queue
+
     setTimeout(() => {
       this.emit('CHANGE');
     }, 0);

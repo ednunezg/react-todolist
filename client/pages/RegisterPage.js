@@ -26,6 +26,9 @@ class RegisterPage extends React.Component {
         };
         this.updateUser = this.updateUser.bind(this);
         this.processForm = this.processForm.bind(this);
+        this.loginFacebook = this.loginFacebook.bind(this);        
+        this.loginGoogle = this.loginGoogle.bind(this);                
+
     }
     
     processForm(event) {
@@ -146,6 +149,17 @@ class RegisterPage extends React.Component {
         this.setState({ user: updatedUser })
     }
 
+    loginFacebook(event){
+        event.preventDefault();                
+        AuthService.loginFacebook(this.props.history);
+    }
+
+    loginGoogle(event){
+        event.preventDefault();                
+        AuthService.loginGoogle(this.props.history);
+    }
+
+
 
     render(){
       return (
@@ -156,7 +170,7 @@ class RegisterPage extends React.Component {
 
                 <h3 className="card-title text-left">Register</h3>
 
-                <br/>
+                <br />
 
                 <RegisterForm
                 onSubmit={this.processForm}
@@ -171,7 +185,7 @@ class RegisterPage extends React.Component {
                     Log in with Facebook
                 </button>
                 
-                <button className="btn loginBtn loginBtn--google" >
+                <button className="btn loginBtn loginBtn--google" onClick={this.loginGoogle}>
                     Log in with Google
                 </button>
 

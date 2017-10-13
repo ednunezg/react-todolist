@@ -47,7 +47,6 @@ class AuthService {
       //Get the access token after login
       var session = hello('facebook').getAuthResponse();
       var socialtoken = session.access_token;
-      console.log("socialtoken = " + socialtoken);
 
       //Make server request to login
       request
@@ -75,10 +74,39 @@ class AuthService {
     
   }
 
-  loginGoogle(history){
+  loginGoogle(history) {
+    
+    hello('google').login({ scope: 'email' }).then(function() {
 
+      //Get the access token after login
+      var session = hello('google').getAuthResponse();
+      var socialtoken = session.access_token;
+
+      //Make server request to login
+      request
+      .post(Constants.LOGIN_URL_GOOGLE)
+      .send({socialtoken: socialtoken})
+      .end( (err, res) => {
+          if(err || !res.ok){
+              if(res.body.message) {
+                  AlertActions.displayMessage('warning', res.body.message);
+              }
+              else{
+                  AlertActions.displayMessage('error', 'Can not login user at this time. Server might be down.');                                                
+              }
+          }
+          else{
+            LoginActions.loginUser(res.body.token);
+            history.push('/');
+            AlertActions.displayMessage('success', res.body.message);
+          }
+      }); 
+
+    }, function(e){
+      AlertActions.displayMessage('error', e.error.message);
+    });
+    
   }
-
   logout() {
     LoginActions.logoutUser();
   }

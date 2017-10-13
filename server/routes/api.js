@@ -21,10 +21,12 @@ router.post('/task_create', passport.authenticate('jwt', { session: false }), fu
   req.checkBody('title','Task title is required').notEmpty();
   req.checkBody('tags','List of task tags is required in request').exists();
   if(req.validationErrors()){errors=req.validationErrors()};
-  for(var i=0; i<req.body.tags.length; i++){
-    if(!Tasktag.tagExists(req.body.tags[i])){
-      errors.tags=('Tag with id ' + req.body.tags[i] + ' does not exist in DB')
-    };
+  if(req.body.tags){
+    for(var i=0; i<req.body.tags.length; i++){
+      if(!Tasktag.tagExists(req.body.tags[i])){
+        errors.tags=('Tag with id ' + req.body.tags[i] + ' does not exist in DB')
+      };
+    }
   }
   if(Object.keys(errors).length !== 0){
     return res.status(400).json({ message: 'Unable to create task with this title and tags', errors: errors });
@@ -49,7 +51,7 @@ router.post('/task_create', passport.authenticate('jwt', { session: false }), fu
       return res.status(400).json({message: "Unable to insert task in DB"});
     }
     else{
-      return res.status(200).json({message: "Task created succesfully"});
+      return res.status(200).json({message: "Task created succesfully" , task: task});
     }
   });
 });
@@ -161,7 +163,7 @@ router.post('/tasktag_create', passport.authenticate('jwt', { session: false }),
         return res.status(400).json({message: "Unable to insert tag in DB"});
       }
       else{
-        return res.status(200).json({message: "Tag created succesfully"});
+        return res.status(200).json({message: "Tag created succesfully", tag: tag});
       }
     });
 });

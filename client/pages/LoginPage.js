@@ -28,7 +28,7 @@ class LoginPage extends React.Component {
             },
         };
         this.loginFacebook = this.loginFacebook.bind(this);        
-        
+        this.loginGoogle = this.loginGoogle.bind(this);                
         this.processForm = this.processForm.bind(this);
         this.updateUser = this.updateUser.bind(this);
     }
@@ -70,6 +70,11 @@ class LoginPage extends React.Component {
         AuthService.loginFacebook(this.props.history);
     }
 
+    loginGoogle(event){
+        event.preventDefault();                
+        AuthService.loginGoogle(this.props.history);
+    }
+
 
     render(){
       return (
@@ -95,11 +100,11 @@ class LoginPage extends React.Component {
                     Log in with Facebook
                 </button>
                 
-                <button className="btn loginBtn loginBtn--google" >
+                <button className="btn loginBtn loginBtn--google" onClick={this.loginGoogle}>
                     Log in with Google
                 </button>
 
-                <hr />
+            <hr />
 
                 <p className="text-justify">
                 <small> By logging in with your Facebook or Google account, you are giving this website permission

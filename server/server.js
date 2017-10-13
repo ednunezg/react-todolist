@@ -12,12 +12,6 @@ var passport = require('passport');
 var path = require('path');
 var session = require('express-session');
 
-
-// TODO: Remove imports
-// import React from 'react';
-// import { renderToString } from 'react-dom/server';
-// import { StaticRouter as Router } from 'react-router-dom';
-
 //Setup database
 mongoose.connect(APP_CONFIG.dbLocation);
 var db = mongoose.connection;

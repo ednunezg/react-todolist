@@ -6,8 +6,8 @@ class TodoStore extends BaseStore {
   constructor() {
     super();
     this.subscribe( () => this._registerToActions.bind(this)); //PRO TIP: Arrow function is used to bind LoginStore class easily
-    this._tags = null; //Array type when loaded
-    this._tasks = null; //Array type when loaded
+    this._tags = []; //Array type when loaded
+    this._tasks = []; //Array type when loaded
   }
 
 
@@ -16,7 +16,7 @@ class TodoStore extends BaseStore {
     switch(action.type){
       case 'LOAD_TASKS_AND_TAGS':
         this._tags = action.tags;
-        this._todos = action.todos;
+        this._tasks = action.tasks;
         this.emitChange(); // Every component using this store can listen to the change
         // this._jwt = action.jwt;
         break;
@@ -27,20 +27,23 @@ class TodoStore extends BaseStore {
         break;
 
       case 'ADD_TASK':
-        this._tags.push(action.newTask);
+        this._tasks.push(action.newTask);
         this.emitChange();
         break;
 
       case 'TOGGLE_TASK':
-        toggleTask(action.taskIndex);
+        this._tasks[action.taskIndex].marked_done = !this._tasks[action.taskIndex].marked_done;
+        this.emitChange();
         break;
       
       case 'DELETE_TASK':
-        this._tasks.splice(actions.taskIndex, 1);
+        this._tasks.splice(action.taskIndex, 1);
+        this.emitChange();
         break;
 
       case 'DELETE_TAG':
-        this._tags.splice(actions.tagIndex, 1);
+        this._tags.splice(action.tagIndex, 1);
+        this.emitChange();
         break;
 
       default:
@@ -53,13 +56,9 @@ class TodoStore extends BaseStore {
   }
 
   get allTasks(){
-    return this._todos;
+    return this._tasks;
   }
 
-
-  toggleTask(taskIndex){
-    this._tasks[i].marked_done = !this._tasks[i].marked_done;
-  }
 
 }
 

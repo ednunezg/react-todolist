@@ -8,7 +8,7 @@ class RegisterTextInput extends React.Component {
 
     render(){
       return (
-        <div className="form-group">
+        <div className="form-group text-left">
 
           <label htmlFor={this.props.id}> {this.props.label}</label>
 

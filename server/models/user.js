@@ -43,6 +43,11 @@ module.exports.createGoogleUser = function(newUser, callback){
   newUser.save(callback);
 }
 
+
+module.exports.createGoogleUser = function(newUser, callback){
+  newUser.save(callback);
+}
+
 //Getters for users
 
 module.exports.getUserByLocalUsername = function(username, callback){
@@ -55,10 +60,11 @@ module.exports.getUserByFacebookId = function(id, callback){
   User.findOne(query, callback);
 }
 
-module.exports.getUserByGoogleToken = function(token, callback){
-  var query = {'google.token': token}; 
+module.exports.getUserByGoogleId = function(id, callback){
+  var query = {'google.id': id}; 
   User.findOne(query, callback);
 }
+
 
 module.exports.getUserById = function(id, callback){
   var query = {_id: mongoose.mongo.ObjectId(id)}; 

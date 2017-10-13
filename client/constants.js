@@ -20,6 +20,16 @@ var Constants = {
   GOOGLE_APP_SECRET: "2XSXwe7bpN4IS1so5CcRm365",
 
 
+  //Todo apis
+  API_TASKS_GETALL: '/api/task_getall',
+  API_TASKS_CREATE: '/api/task_create',
+  API_TASKS_TOGGLEDONE: '/api/task_toggledone',
+  API_TASKS_DELETE: '/api/task_delete',
+
+  API_TAGS_GETALL: '/api/tasktag_getall',
+  API_TAGS_CREATE: '/api/tasktag_create',
+  API_TAGS_DELETE: '/api/tasktag_delete',
+
 }  
 
 export default Constants;
