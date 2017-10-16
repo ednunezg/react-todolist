@@ -1,7 +1,7 @@
-# Todo list with user authentication on React.js
+# To-do list with user authentication on React.js
 <p align="center"><img src="http://i65.tinypic.com/28wjrzc.jpg" width="500"/></p>
 
-This web app allows you to create a list of todos with custom categories. The todos get synched to a database under your user profile. You can leave the site or logout at anytime, then log back in and your todos will still be there!
+This web app allows you to create a list of to-dos with custom categories. The to-dos get synched to a database under your user profile. You can leave the site or logout at anytime, then log back in and your to-dos will still be there!
 
 Made this project for me to better learn React.js with the Flux pattern, as well as handling user authentication using social login APIs. Built on node.js/express/mongoDB on the back end, and React.js/Flux on the front end.
 
