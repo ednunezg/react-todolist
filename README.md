@@ -1,5 +1,4 @@
 # To-do list with user authentication on React.js
-<p align="center"><img src="http://i65.tinypic.com/28wjrzc.jpg" width="500"/></p>
 
 This web app allows you to create a list of to-dos with custom categories. The to-dos get synched to a database under your user profile. You can leave the site or logout at anytime, then log back in and your to-dos will still be there!
 
