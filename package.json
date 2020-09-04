@@ -34,7 +34,7 @@
     "hellojs": "*",
     "jwt-decode": "*",
     "jsonwebtoken": "^8.0.0",
-    "mongodb": "^2.2.31",
+    "mongodb": "^3.6.1",
     "mongoose": "^4.11.10",
     "path": "*",
     "passport": "^0.4.0",
